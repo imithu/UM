@@ -1,3 +1,15 @@
+# [Version 1.7.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.7.0) - UTC 2021-Mar-15 16:49:52
+## Added
+- Authentication
+
+## Removed
+- Login
+- Logout
+
+# Improved
+- Register
+
+
 # [Version 1.6.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.6.0) - 2021-Feb-10
 ## Added
 - unique parameter has been added in insert method
