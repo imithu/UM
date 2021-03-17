@@ -1,3 +1,12 @@
+# [Version 1.8.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.8.0) - UTC 2021-Mar-17 04:08:13
+## Added
+- Login
+## Improved
+- Authentication
+
+
+
+
 # [Version 1.7.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.7.0) - UTC 2021-Mar-15 16:49:52
 ## Added
 - Authentication
