@@ -11,21 +11,18 @@ class Authentication
   /**
    * main authentication
    * 
-   * @param string $username_or_email
-   * @param string $password
+   * @param int    $user_id
+   * @param string $username
+   * @param string $email
+   * @param string $password_hashed
    * @param string $usertype
    * 
-   * @return string (json) - successful authentication - see (i)
-   *                       - failed authentication     - see (ii)
+   * @return string (json) - successful authentication  - see (i)
+   *                       - failed authentication      - see (ii)
+   * 
    * i. 
    *    {
-   *      "success": true,
-   *      "user_id": 0,
-   *      "username": "username",
-   *      "email": "email",
-   *      "password_hashed": "password_hashed",
-   *      "usertype": "usertype",
-   *      "userstatus": "userstatus"
+   *      "success": true
    *    }
    * 
    * ii. 
@@ -35,37 +32,27 @@ class Authentication
    *
    * 
    * @since   1.7.0
-   * @version 1.7.0
+   * @version 1.8.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function main( string $username_or_email, string $password, string $usertype )
+  public static function main( int $user_id, string $username, string $email, string $password_hashed, string $usertype )
   {
-    $username_or_email = strtolower(trim($username_or_email));
-    $user_id = Users::id_username_or_email( $username_or_email );
+
+    $user_id_DB = Users::id_username_or_email( $username );
 
     if(
-          $user_id>0
-      && User::user_is_verified($user_id) 
-      && password_verify($password, Users::select($user_id, 'password'))
-      && $usertype===Users::select( $user_id, 'usertype' )
-      && 'active' ===Users::select( $user_id, 'userstatus' )
-    )
-    {
-      $SR = [
-        "success"         => true,
-        "user_id"         => $user_id,
-        "username"        => Users::select( $user_id, 'username' ),
-        "email"           => Users::select( $user_id, 'email' ),
-        "password_hashed" => Users::select( $user_id, 'password'),
-        "usertype"        => $usertype,
-        "userstatus"      => 'active'
-      ];
-    }else{
-      $SR = [
-        "success"         => false,
-      ];
+         $user_id_DB>0
+      && User::user_is_verified($user_id_DB) 
+      && ( $user_id === $user_id_DB )
+      && ( $username === Users::select( $user_id_DB, 'username' ) )
+      && ( $email === Users::select( $user_id_DB, 'email' ) )
+      && ( $password_hashed === Users::select($user_id_DB, 'password') )
+      && ( $usertype === Users::select($user_id_DB, 'usertype') )
+    ) {
+      return '{ "success": true }';
     }
 
-    return json_encode($SR);
+
+    return '{ "success": false }';
   }
 }
