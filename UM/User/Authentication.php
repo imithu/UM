@@ -11,11 +11,7 @@ class Authentication
   /**
    * main authentication
    * 
-   * @param int    $user_id
-   * @param string $username
-   * @param string $email
-   * @param string $password_hashed
-   * @param string $usertype
+   * @param string $auth (json) - {"user_id": 0,"username":"","email":"","password_hashed":"","usertype":""}
    * 
    * @return string (json) - successful authentication  - see (i)
    *                       - failed authentication      - see (ii)
@@ -32,14 +28,22 @@ class Authentication
    *
    * 
    * @since   1.7.0
-   * @version 1.8.0
+   * @version 1.9.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function main( int $user_id, string $username, string $email, string $password_hashed, string $usertype )
+  public static function main( string $auth )
   {
+    $auth = json_decode($auth);
+
+
+    $user_id =  (int) $auth->user_id;
+    $username = (string) $auth->username;
+    $email =    (string) $auth->email;
+    $password_hashed = (string) $auth->password_hashed;
+    $usertype =        (string) $auth->usertype;
+
 
     $user_id_DB = Users::id_username_or_email( $username );
-
     if(
          $user_id_DB>0
       && User::user_is_verified($user_id_DB) 
@@ -48,6 +52,7 @@ class Authentication
       && ( $email === Users::select( $user_id_DB, 'email' ) )
       && ( $password_hashed === Users::select($user_id_DB, 'password') )
       && ( $usertype === Users::select($user_id_DB, 'usertype') )
+      && ( Users::select($user_id_DB, 'userstatus')==='active' )
     ) {
       return '{ "success": true }';
     }
