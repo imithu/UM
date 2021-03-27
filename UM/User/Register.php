@@ -32,10 +32,10 @@ class Register
    * 
    * 
    * @since   1.0.0
-   * @version 1.7.0
+   * @version 1.10.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function register_main( string $username, string $email, string $password, string $usertype )
+  public static function main( string $username, string $email, string $password, string $usertype )
   {
     $SR =
     [

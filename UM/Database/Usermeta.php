@@ -15,18 +15,18 @@ class Usermeta
      * @param int    $user_id
      * @param string $meta_key
      * @param string $meta_value
-     * @param bool   $unique (optional)
+     * @param bool   $store_unique_only (optional)
      * 
      * @since   0.0.0
-     * @version 1.6.0
+     * @version 1.10.0
      * @author  Mahmudul Hasan Mithu
      */
-    public static function insert( int $user_id, string $meta_key, string $meta_value, bool $unique=true )
+    public static function insert( int $user_id, string $meta_key, string $meta_value, bool $store_unique_only=true )
     {
         date_default_timezone_set('UTC');
         $datetime = date('Y-m-d H:i:s');
 
-        if( $unique ){
+        if( $store_unique_only ){
             if(count(DB::select('SELECT * FROM UM_usermeta WHERE (user_id=? AND meta_key=?) ORDER BY id DESC', [$user_id, htmlspecialchars(trim($meta_key))]))==0){
                 DB::insert('INSERT INTO UM_usermeta  VALUES( NULL, ?, ?, ?, ?)', [$user_id, htmlspecialchars(trim($meta_key)), htmlspecialchars(trim($meta_value)), $datetime]);
             }else{
@@ -34,7 +34,7 @@ class Usermeta
                     DB::update('UPDATE UM_usermeta SET meta_value=?, `datetime`=? WHERE (user_id=? AND meta_key=?)', [ htmlspecialchars(trim($meta_value)), $datetime, $user_id, htmlspecialchars(trim($meta_key)) ]);
                 }
             }
-        }elseif( $unique==false ){
+        }elseif( $store_unique_only==false ){
             DB::insert('INSERT INTO UM_usermeta  VALUES( NULL, ?, ?, ?, ?)', [$user_id, htmlspecialchars(trim($meta_key)), htmlspecialchars(trim($meta_value)), $datetime]);
         }
     }
