@@ -1,3 +1,18 @@
+# [Version 1.10.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.10.0) - UTC 2021-Mar-27 09:30:02
+## Added
+- JWT encode
+- JWT decode
+## Improved
+- Generate Unknown_Data
+- Usermeta method in UM\Database
+## Rename
+- from register_main to main in UM\User\register
+## Removed
+- current_user_id form UM\User\Account
+- usertype method from UM\User\Account
+
+
+
 # [Version 1.9.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.9.0) - UTC 2021-Mar-18 16:46:36
 ## Improved
 - Authentication main is improved
