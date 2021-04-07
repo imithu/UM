@@ -1,3 +1,14 @@
+# [Version 1.11.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.11.0) - UTC 2021-Apr-08 23:10:16
+## Fixed
+in UM/Database/Users.php,
+- datatype error of id_username method
+- datatype error of id_email method
+- datatype error of id_username_or_email method
+
+
+
+
+
 # [Version 1.10.0](https://github.com/imithu/UM-Laravel/releases/tag/v1.10.0) - UTC 2021-Mar-27 09:30:02
 ## Added
 - JWT encode
