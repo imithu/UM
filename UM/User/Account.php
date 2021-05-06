@@ -68,8 +68,8 @@ class Account
    */
   public static function is_verified( int $user_id )
   {
-    $is_email_verified = DB::table('UM_users')->where('id', $user_id)->value('email_is_verified');
-    if( $is_email_verified==='yes' ) return true;
+    $is_email_verified = DB::table('UM_users')->where('id', $user_id)->value('is_email_verified');
+    if( $is_email_verified===1 ) return true;
 
     return false;
   }
