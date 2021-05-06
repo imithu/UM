@@ -4,6 +4,8 @@ namespace UM\Verify;
 
 class Syntax
 {
+
+
     /**
      * check username syntax is valid or not
      * -------------------------------------
@@ -70,32 +72,4 @@ class Syntax
     }
 
 
-
-
-    /**
-     * check password syntax is valid or not
-     * -----------------------------------
-     * rules:
-     * - minimum 8 characters
-     * 
-     * 
-     * @param string $password
-     * 
-     * @return bool  true  - if password syntax is correct
-     *               false - if password syntax is not correct
-     * 
-     * 
-     * 
-     * @since   1.0.0
-     * @version 1.0.0
-     * @author  Mahmudul Hasan Mithu
-     */
-    public static function password( string $password )
-    {
-        if( strlen($password)>7 ){
-            return true;
-        }
-
-        return false;
-    }
 }
