@@ -11,46 +11,6 @@ use UM\Database\Users;
 
 class Password
 {
-
-    /**
-     * 
-     * password reset request
-     * 
-     * 
-     * @param string username_or_email
-     * 
-     * @return array   [ user_id, email ,temp_otp ]
-     *                 else []
-     * 
-     * 
-     * @since   0.0.0
-     * @version 1.0.0
-     * @author  Mahmudul Hasan Mithu
-     */
-    public static function password_reset_request( string $username_or_email )
-    {
-        $SR = [];
-        $user_id = Users::id_username_or_email( $username_or_email );
-
-        if( $user_id>0 && User::user_is_verified( $user_id ) ){
-            $temp_otp = Unknown_Data::temp_otp(6);
-            $email = Users::select( $user_id, 'email' );
-            Users::update( $user_id, 'temp_otp', $temp_otp );
-
-            $SR = 
-            [
-                'user_id'=>$user_id,
-                'email'=>$email,
-                'temp_otp'=>$temp_otp
-            ];
-        }
-
-        return $SR;
-    }
-
-
-
-
     /**
      * update password of an user
      * 
