@@ -33,6 +33,9 @@ class Account
    * 
    * @param int|string $value  - id_user | username | email
    * @param string     $column - id | username | email
+   *                             i - id
+   *                             u - username
+   *                             e - email
    * 
    * @return int >0  - user exists
    *              0  - user does not exists
@@ -43,9 +46,9 @@ class Account
    */
   public static function get_id( $value, string $column )
   {
-    if( $column==='id' )            $id_user = DB::table('UM_users')->where( 'id', $value )->value('id');
-    elseif( $column==='username' )  $id_user = DB::table('UM_users')->where( 'username', $value )->value('id');
-    elseif( $column==='email' )     $id_user = DB::table('UM_users')->where( 'email', $value )->value('id');
+    if( $column==='i' )      $id_user = DB::table('UM_users')->where( 'id', $value )->value('id');
+    elseif( $column==='u' )  $id_user = DB::table('UM_users')->where( 'username', $value )->value('id');
+    elseif( $column==='e' )  $id_user = DB::table('UM_users')->where( 'email', $value )->value('id');
 
     if( $id_user>0 ) return $id_user;
     return 0;
