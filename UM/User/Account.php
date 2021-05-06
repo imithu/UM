@@ -10,18 +10,18 @@ class Account
 
 
   /**
-   * Delete whole account based on user_id
+   * Delete whole account based on id_user
    * 
-   * @param int $user_id
+   * @param int $id_user
    * 
    * @since   0.0.0
-   * @version 0.0.0
+   * @version 2.0.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function delete( int $user_id )
+  public static function delete( int $id_user )
   {
-    DB::delete('DELETE FROM UM_users WHERE `id`=?', [$user_id]);
-    DB::delete('DELETE FROM UM_usermeta WHERE `user_id`=?', [$user_id]);
+    DB::table('UM_users')->where( 'id', $id_user )->delete();
+    DB::table('UM_usermeta')->where( 'id_user', $id_user )->delete();
   }
 
 
