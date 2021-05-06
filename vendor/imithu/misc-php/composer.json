@@ -1,0 +1,19 @@
+{
+    "name": "imithu/misc-php",
+    "description": "language specific library in php for quick coding",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "imithu",
+            "email": "imithu@imithu.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+      "psr-4": {
+          "Misc\\": [
+              "Misc"
+          ]
+      }
+    }
+}

@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '6139f4d635f27333dd3027f3253bcaf0818ff032',
+    'reference' => '7c92df8d85748e088607e46550418016c3fec891',
     'name' => 'imithu/um-laravel',
   ),
   'versions' => 
@@ -20,6 +20,15 @@
       ),
       'reference' => 'f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
     ),
+    'imithu/misc-php' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8b2c8420747c715ed23864243b42a7061854ec11',
+    ),
     'imithu/um-laravel' => 
     array (
       'pretty_version' => 'dev-master',
@@ -27,7 +36,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '6139f4d635f27333dd3027f3253bcaf0818ff032',
+      'reference' => '7c92df8d85748e088607e46550418016c3fec891',
     ),
   ),
 );

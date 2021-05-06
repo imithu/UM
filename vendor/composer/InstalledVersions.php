@@ -20,6 +20,8 @@ use Composer\Semver\VersionParser;
 
 
 
+
+
 class InstalledVersions
 {
 private static $installed = array (
@@ -30,7 +32,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '6139f4d635f27333dd3027f3253bcaf0818ff032',
+    'reference' => '7c92df8d85748e088607e46550418016c3fec891',
     'name' => 'imithu/um-laravel',
   ),
   'versions' => 
@@ -44,6 +46,15 @@ private static $installed = array (
       ),
       'reference' => 'f42c9110abe98dd6cfe9053c49bc86acc70b2d23',
     ),
+    'imithu/misc-php' => 
+    array (
+      'pretty_version' => 'v1.0.0',
+      'version' => '1.0.0.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '8b2c8420747c715ed23864243b42a7061854ec11',
+    ),
     'imithu/um-laravel' => 
     array (
       'pretty_version' => 'dev-master',
@@ -51,7 +62,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '6139f4d635f27333dd3027f3253bcaf0818ff032',
+      'reference' => '7c92df8d85748e088607e46550418016c3fec891',
     ),
   ),
 );
@@ -70,7 +81,6 @@ $packages = array();
 foreach (self::getInstalled() as $installed) {
 $packages[] = array_keys($installed['versions']);
 }
-
 
 if (1 === \count($packages)) {
 return $packages[0];
@@ -267,6 +277,7 @@ self::$installedByVendor = array();
 
 
 
+
 private static function getInstalled()
 {
 if (null === self::$canGetVendors) {
@@ -276,7 +287,6 @@ self::$canGetVendors = method_exists('Composer\Autoload\ClassLoader', 'getRegist
 $installed = array();
 
 if (self::$canGetVendors) {
-
 foreach (ClassLoader::getRegisteredLoaders() as $vendorDir => $loader) {
 if (isset(self::$installedByVendor[$vendorDir])) {
 $installed[] = self::$installedByVendor[$vendorDir];

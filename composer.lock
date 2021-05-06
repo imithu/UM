@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2bdad645b20d8cc766862342eabd329f",
+    "content-hash": "e11167b649d4dba763117cd4fd4b960b",
     "packages": [
         {
             "name": "firebase/php-jwt",
@@ -59,6 +59,45 @@
                 "source": "https://github.com/firebase/php-jwt/tree/v5.2.1"
             },
             "time": "2021-02-12T00:02:00+00:00"
+        },
+        {
+            "name": "imithu/misc-php",
+            "version": "v1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/imithu/misc-php.git",
+                "reference": "8b2c8420747c715ed23864243b42a7061854ec11"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/imithu/misc-php/zipball/8b2c8420747c715ed23864243b42a7061854ec11",
+                "reference": "8b2c8420747c715ed23864243b42a7061854ec11",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Misc\\": [
+                        "Misc"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "imithu",
+                    "email": "imithu@imithu.com"
+                }
+            ],
+            "description": "language specific library in php for quick coding",
+            "support": {
+                "issues": "https://github.com/imithu/misc-php/issues",
+                "source": "https://github.com/imithu/misc-php/tree/v1.0.0"
+            },
+            "time": "2021-05-03T14:56:19+00:00"
         }
     ],
     "packages-dev": [],

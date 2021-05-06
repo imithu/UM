@@ -11,6 +11,10 @@ class ComposerStaticInitd2a7a4d4a3bcb6735d868883d53a670f
         array (
             'UM\\' => 3,
         ),
+        'M' => 
+        array (
+            'Misc\\' => 5,
+        ),
         'F' => 
         array (
             'Firebase\\JWT\\' => 13,
@@ -21,6 +25,10 @@ class ComposerStaticInitd2a7a4d4a3bcb6735d868883d53a670f
         'UM\\' => 
         array (
             0 => __DIR__ . '/../..' . '/UM',
+        ),
+        'Misc\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/imithu/misc-php/Misc',
         ),
         'Firebase\\JWT\\' => 
         array (
