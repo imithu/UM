@@ -28,10 +28,11 @@ class Account
 
 
   /**
-   * get id_user by id_user, username, email
+   * get id_user based on id_user, username, email
    * also get the info of user existence
    * 
-   * @param int|string id_user | username | email
+   * @param int|string $value  - id_user | username | email
+   * @param string     $column - id | username | email
    * 
    * @return int >0  - user exists
    *              0  - user does not exists
@@ -40,13 +41,11 @@ class Account
    * @version 2.0.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function get_id( $value )
+  public static function get_id( $value, string $column )
   {
-    $id_user = DB::table('UM_users')
-                ->where( 'id', $value )
-                ->orWhere( 'username', $value )
-                ->orWhere( 'email', $value )
-                ->value('id');
+    if( $column==='id' )            $id_user = DB::table('UM_users')->where( 'id', $value )->value('id');
+    elseif( $column==='username' )  $id_user = DB::table('UM_users')->where( 'username', $value )->value('id');
+    elseif( $column==='email' )     $id_user = DB::table('UM_users')->where( 'email', $value )->value('id');
 
     if( $id_user>0 ) return $id_user;
     return 0;
@@ -60,8 +59,8 @@ class Account
    * 
    * @param int id_user
    * 
-   * @return bool - true  - verified user
-   *                false - not verified user
+   * @return bool  true  - verified user
+   *               false - not verified user
    * 
    * @since   1.0.0
    * @version 2.0.0
