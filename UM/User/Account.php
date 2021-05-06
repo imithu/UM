@@ -1,10 +1,14 @@
 <?php
 namespace UM\User;
 
+
 use Illuminate\Support\Facades\DB;
+
 
 class Account
 {
+
+
   /**
    * Delete whole account based on user_id
    * 
@@ -24,9 +28,12 @@ class Account
 
 
   /**
-   * check user exist or not
+   * check user exists or not
    * 
    * @param int|string id_user | username | email
+   * 
+   * @return bool true  - user exists
+   *              false - user does not exists
    * 
    * @since   2.0.0
    * @version 2.0.0
@@ -47,9 +54,25 @@ class Account
 
 
 
+  /**
+   * check user is verified or not
+   * 
+   * @param int id_user
+   * 
+   * @return bool - true  - verified user
+   *                false - not verified user
+   * 
+   * @since   1.0.0
+   * @version 2.0.0
+   * @author  Mahmudul Hasan Mithu
+   */
+  public static function is_verified( int $user_id )
+  {
+    $is_email_verified = DB::table('UM_users')->where('id', $user_id)->value('email_is_verified');
+    if( $is_email_verified==='yes' ) return true;
 
-
-
+    return false;
+  }
 
 
 }
