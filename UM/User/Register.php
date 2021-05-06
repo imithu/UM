@@ -1,16 +1,9 @@
 <?php
-
 namespace UM\User;
 
-use UM\Database\Users;
-use UM\User\Account;
-use UM\Verify\User;
-use UM\Verify\Syntax;
-use UM\Generate\Unknown_Data;
 
 use Illuminate\Support\Facades\DB;
-
-
+use UM\Verify\Syntax;
 
 
 class Register
@@ -27,161 +20,107 @@ class Register
    * @param string $usertype
    * 
    * 
-   * @return string (json) $SR - i.   { "error": true, "username_error": (boolean), "email_error": (boolean) }
-   *                             ii.  { "error": false, 'temp_otp'=>'value', 'user_id'=>value }
-   * 
+   * @return int >0  - successful user registration ( return newly created user id )
+   *              0  - failed     user registration
    * 
    * @since   1.0.0
-   * @version 1.10.0
+   * @version 2.0.0
    * @author  Mahmudul Hasan Mithu
    */
   public static function main( string $username, string $email, string $password, string $usertype )
   {
-    $SR =
-    [
-      'error' => true,
-      'username_error'=> true,
-      'email_error'=>true
-    ];
-
-    // removed side space except password
-    $username = htmlspecialchars(strtolower(trim($username)));    // convert the username to lowercase
-    $email = htmlspecialchars(strtolower(trim($email)));          // convert the email    to lowercase
-    $usertype = trim($usertype);
-
-    $SR_temp = Register_Main_Func_Helper::account_check( $username, $email );
-
-    if( $SR_temp['username_error']===true || $SR_temp['email_error']===true ){
-      $SR =
-      [
-        'error' => true,
-        'username_error'=> $SR_temp['username_error'],
-        'email_error'=>$SR_temp['email_error']
-      ];
-      return json_encode($SR);
+    if(  Helper_main::is_username_okay($username) && Helper_main::is_email_okay($email) ){
+      $id_user = DB::table('UM_users')->insertGetId(
+        [
+          'username' => $username,
+          'email' => $email,
+          'password' => '',
+          'usertype' => $usertype,
+          'userstatus' => 'pending',
+          'is_email_verified' => 0,
+          'datetime'=> \Misc\Moment::datetime()
+        ]
+      );
+      Password::update( $id_user, $password );
+      return $id_user;
     }
 
-    $SR_temp = Register_Main_Func_Helper::create_account( $username, $email, $password, $usertype );
-    $SR = 
-    [
-      'error' => false,
-      'user_id'=> $SR_temp['user_id'],
-      'temp_otp'=> $SR_temp['temp_otp']
-    ];
-
-
-    return json_encode($SR);
+    return 0;
   }
+
+
 }
 
 
 
 
-final class Register_Main_Func_Helper
+final class Helper_main
 {
+
+
   /**
-   * create account
+   * check email syntax is okay or not
+   * check email existence
    * 
-   * @param string $username
    * @param string $email
-   * @param string $password
    * 
-   * @param string $usertype
+   * @return bool true  - email is okay   -- new account can be created with this email
+   *              false - email is not okay
    * 
-   * @return array $SR [ $temp_otp=>'value',    $user_id=>value ]
-   * 
-   * @since   1.0.0
-   * @version 1.7.0
+   * @since   2.0.0
+   * @version 2.0.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function create_account( string $username, string $email, string $password, string $usertype )
+  public static function is_email_okay( string $email )
   {
-    date_default_timezone_set('UTC');
-    $password = password_hash( $password, PASSWORD_DEFAULT );
-    $temp_otp = Unknown_Data::random_name();
+    // check email syntax
+    if( Syntax::email($email) ){
+      // check email existence
+        $id_user = Account::get_id($email, 'e');
+        if( $id_user===0 ) return true;
 
-    DB::table('UM_users')->insert(
-      [
-        'id' => NULL,
-        'username' => $username,
-        'email' => $email,
-        'password' => $password,
-        'usertype' => $usertype,
-        'userstatus' => 'pending',
-        'email_is_verified' => 'no',
-        'temp_otp' => $temp_otp,
-        'datetime' => date('Y-m-d H:i:s')
-      ]
-    );
+        $is_user_verified = Account::is_verified( $id_user );
+        if( $is_user_verified===false ){
+          Account::delete( $id_user );
+          return true;
+        }
+    }
 
-    $user_id = Users::id_username( $username );
-
-
-    return
-    [
-        'temp_otp'=> $temp_otp,
-        'user_id'=> $user_id
-    ];
+    return false;
   }
 
 
+
+
   /**
-   * check any account exist or not based on username and email
-   * also check username syntax is valid or not
-   * and take action
+   * check username syntax is okay or not
+   * check username existence
    * 
    * @param string $username
-   * @param string $email
    * 
+   * @return bool true  - username is okay   -- new account can be created with this username
+   *              false - username is not okay
    * 
-   * @return array $SR [ $username_error=>(bool),    $email_error=>(bool) ]
-   * 
-   * @since   1.0.0
-   * @version 1.7.0
+   * @since   2.0.0
+   * @version 2.0.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function account_check( string $username, string $email )
+  public static function is_username_okay( string $username )
   {
-    $username_error = false;
-    $email_error = false;
+    // check username syntax
+    if( Syntax::username($username) ){
+      // check username existence
+        $id_user = Account::get_id($username, 'u');
+        if( $id_user===0 ) return true;
 
-
-
-
-    // check username syntax is okay or not
-    if(Syntax::username($username)){
-      // check username exist or not in database
-      $user_id = Users::id_username( $username );
-      if( $user_id>0 ){
-        if( User::user_is_verified( $user_id ) ){
-          $username_error = true;
-        }else{
-          Account::delete( $user_id );
+        $is_user_verified = Account::is_verified( $id_user );
+        if( $is_user_verified===false ){
+          Account::delete( $id_user );
+          return true;
         }
-      }
-    }else{
-      $username_error = true;
     }
 
-
-    // check email exist or not in database
-    $user_id = Users::id_email( $email );
-    if( $user_id>0 ){
-      if( User::user_is_verified( $user_id ) ){
-        $email_error = true;
-      }else{
-         Account::delete( $user_id );
-      }
-    }
-
-
-
-    $SR =
-    [
-      'username_error' => $username_error,
-      'email_error' => $email_error
-    ];
-    return $SR;
+    return false;
   }
 
 
