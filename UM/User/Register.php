@@ -33,7 +33,7 @@ class Register
     $email    = strtolower(trim($email));
     $usertype = strtolower(trim($usertype));
     
-    if(  Helper_main::is_username_okay($username) && Helper_main::is_email_okay($email) ){
+    if(  Register_Helper_main::is_username_okay($username) && Register_Helper_main::is_email_okay($email) ){
       $id_user = DB::table('UM_users')->insertGetId(
         [
           'username' => $username,
@@ -58,7 +58,7 @@ class Register
 
 
 
-final class Helper_main
+final class Register_Helper_main
 {
 
 
