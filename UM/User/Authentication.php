@@ -28,7 +28,13 @@ class Authentication
 
     if($token_key!==NULL){
       $payload = JWT::decode( $token, $token_key );
-      if( $payload ) return $payload->id_user;
+      if( $payload ){
+        $id_token = DB::table('UM_login')->where('token', $token)->value('id');
+        DB::table('UM_login')->where('id', $id_token)->increment('access_count', 1);
+        DB::table('UM_login')->where('id', $id_token)->update(['datetime_last_access' => \Misc\Moment::datetime()]);
+        
+        return $payload->id_user;
+      }
     }
 
     return 0;
