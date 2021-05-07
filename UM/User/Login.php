@@ -1,13 +1,15 @@
 <?php
-
 namespace UM\User;
 
-use UM\Database\Users;
-use UM\Verify\User;
+
+use Illuminate\Support\Facades\DB;
+use UM\Verify\JWT;
 
 
-class Login
+final class Login
 {
+
+
   /**
    * main login
    * 
@@ -15,57 +17,45 @@ class Login
    * @param string $password
    * @param string $usertype
    * 
-   * @return string (json) - successful authentication - see (i)
-   *                       - failed authentication     - see (ii)
-   * i. 
-   *    {
-   *      "success": true,
-   *      "user_id": 0,
-   *      "username": "username",
-   *      "email": "email",
-   *      "password_hashed": "password_hashed",
-   *      "usertype": "usertype",
-   *      "userstatus": "userstatus"
-   *    }
-   * 
-   * ii. 
-   *    {
-   *      "success": false
-   *    }
+   * @return bool|string  string - successful - return a token
+   *                       false - fail       - return false
    *
    * 
    * @since   1.8.0
-   * @version 1.8.0
+   * @version 2.0.0
    * @author  Mahmudul Hasan Mithu
    */
   public static function main( string $username_or_email, string $password, string $usertype )
   {
     $username_or_email = strtolower(trim($username_or_email));
-    $user_id = Users::id_username_or_email( $username_or_email );
+    $usertype          = strtolower(trim($usertype));
+
+    $id_user = Account::get_id( $username_or_email, 'u' );
+    if($id_user===0) $id_user = Account::get_id( $username_or_email, 'e' );
+
 
     if(
-          $user_id>0
-      && User::user_is_verified($user_id) 
-      && password_verify($password, Users::select($user_id, 'password'))
-      && $usertype===Users::select( $user_id, 'usertype' )
-      && 'active' ===Users::select( $user_id, 'userstatus' )
+          $id_user>0
+      && Account::is_verified($id_user)
+      && password_verify($password, DB::table('UM_users')->where( 'id', $id_user )->value('password'))
+      && $usertype===DB::table('UM_users')->where( 'id', $id_user )->value('usertype')
+      &&  'active'===DB::table('UM_users')->where( 'id', $id_user )->value('userstatus')
     )
     {
-      $SR = [
-        "success"         => true,
-        "user_id"         => $user_id,
-        "username"        => Users::select( $user_id, 'username' ),
-        "email"           => Users::select( $user_id, 'email' ),
-        "password_hashed" => Users::select( $user_id, 'password'),
-        "usertype"        => $usertype,
-        "userstatus"      => 'active'
-      ];
-    }else{
-      $SR = [
-        "success"         => false,
-      ];
+      $token = JWT::encode( (object)[
+          'id_user' => $id_user,
+          'iat' => \Misc\Moment::datetime()
+      ]);
+      DB::table('UM_login')->insert([
+        'token' => $token->jwt,
+        'token_key' => $token->key,
+        'access_count' => 0
+      ]);
+      return $token->jwt;
     }
 
-    return json_encode($SR);
+    return false;
   }
+
+
 }
