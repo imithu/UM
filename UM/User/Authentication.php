@@ -1,63 +1,38 @@
 <?php
-
 namespace UM\User;
 
-use UM\Database\Users;
-use UM\Verify\User;
+
+use Illuminate\Support\Facades\DB;
+use UM\Verify\JWT;
 
 
 class Authentication
 {
+
+
   /**
    * main authentication
    * 
-   * @param string $auth (json) - {"user_id": 0,"username":"","email":"","password_hashed":"","usertype":""}
+   * @param string token
    * 
-   * @return string (json) - successful authentication  - see (i)
-   *                       - failed authentication      - see (ii)
-   * 
-   * i. 
-   *    {
-   *      "success": true
-   *    }
-   * 
-   * ii. 
-   *    {
-   *      "success": false
-   *    }
-   *
+   * @return int >0 - success - return id of user
+   *              0 - fail
    * 
    * @since   1.7.0
-   * @version 1.9.0
+   * @version 2.0.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function main( string $auth )
+  public static function main( string $token )
   {
-    $auth = json_decode($auth);
+    $token_key = DB::table('UM_login')->where('token', $token)->value('token_key');
 
-
-    $user_id =  (int) $auth->user_id;
-    $username = (string) $auth->username;
-    $email =    (string) $auth->email;
-    $password_hashed = (string) $auth->password_hashed;
-    $usertype =        (string) $auth->usertype;
-
-
-    $user_id_DB = Users::id_username_or_email( $username );
-    if(
-         $user_id_DB>0
-      && User::user_is_verified($user_id_DB) 
-      && ( $user_id === $user_id_DB )
-      && ( $username === Users::select( $user_id_DB, 'username' ) )
-      && ( $email === Users::select( $user_id_DB, 'email' ) )
-      && ( $password_hashed === Users::select($user_id_DB, 'password') )
-      && ( $usertype === Users::select($user_id_DB, 'usertype') )
-      && ( Users::select($user_id_DB, 'userstatus')==='active' )
-    ) {
-      return '{ "success": true }';
+    if($token_key!==NULL){
+      $payload = JWT::decode( $token, $token_key );
+      if( $payload ) return $payload->id_user;
     }
 
-
-    return '{ "success": false }';
+    return 0;
   }
+
+
 }
