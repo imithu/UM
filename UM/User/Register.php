@@ -29,6 +29,10 @@ class Register
    */
   public static function main( string $username, string $email, string $password, string $usertype )
   {
+    $username = strtolower($username);
+    $email    = strtolower($email);
+    $usertype = strtolower($usertype);
+    
     if(  Helper_main::is_username_okay($username) && Helper_main::is_email_okay($email) ){
       $id_user = DB::table('UM_users')->insertGetId(
         [
