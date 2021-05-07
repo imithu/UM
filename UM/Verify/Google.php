@@ -2,41 +2,40 @@
 namespace UM\Verify;
 
 
-use UM\Database\Options;
 use Illuminate\Support\Facades\DB;
 
 
-
-class Google
+final class Google
 {
-    /**
-     * Check captcha value matches or not from server side
-     * 
-     * @param string $response_id
-     * 
-     * @return bool  true  - if     matches
-     *               false - if not matches
-     * 
-     * 
-     * @since   0.0.0
-     * @version 1.0.0
-     * @author  Mahmudul Hasan Mithu
-     */
-    public static function captcha_recaptcha_v2( string $response_id )
-    {
-        $SR = false;
 
-        $keys = Options::select('google_captcha_recaptcha_v2');
-        $secret_key = $keys['secret_key'];
 
-        $url = "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response_id}";
-        $url = file_get_contents($url);
-        $url = json_decode($url);
+  /**
+   * verify recaptcha v2 from server side
+   * 
+   * @param string $response_id
+   * 
+   * @return bool  true  - if     verified
+   *               false - if not verified
+   * 
+   * 
+   * @since   0.0.0
+   * @version 2.0.0
+   * @author  Mahmudul Hasan Mithu
+   */
+  public static function captcha_recaptcha_v2( string $response_id )
+  {
+    $key = DB::table('UM_options')->where('meta_key', 'google_captcha_recaptcha_v2')->value('meta_value');
+    $key = json_decode($key);
+    $secret_key = $key->secret_key;
 
-        if( $url->success==true ){
-            $SR = true;
-        }
+    $url = "https://www.google.com/recaptcha/api/siteverify?secret={$secret_key}&response={$response_id}";
+    $url = file_get_contents($url);
+    $url = json_decode($url);
 
-        return $SR;
-    }    
+    if( $url->success==true ) return true;
+
+    return false;
+  }
+
+
 }
