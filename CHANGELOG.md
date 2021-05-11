@@ -1,18 +1,6 @@
-# [Version 2.0.0](https://github.com/imithu/UM-Laravel/releases/tag/v2.0.0) - UTC 2021-May-07 05:33:36
+# [Version 2.1.0](https://github.com/imithu/UM-Laravel/releases/tag/v2.1.0) - UTC 2021-May-11 08:08:08
 ## Improved
-- UM\User\Account class
-- UM\User\Login class
-- UM\User\Authentication class
-- UM\User\Register class
-- UM\Verify\Google class
-## Added
-- UM\User\Password::update method
-## Removed
-- removed all classes of UM\Database
-- UM\User\Password::password_reset_request method
-- UM\User\Password::password_update method
-- UM\Verify\Syntax::password method
-- UM\Verify\User class
+- optional key feature is added in JWT encode method
 
 
 ## Thank you very much
