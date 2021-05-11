@@ -11,6 +11,7 @@ class JWT
    * encode data in jwt
    * 
    * @param object $payload
+   * @param string $key (optional)
    * 
    * @return object key and value
    * eg.
@@ -18,16 +19,16 @@ class JWT
    * $variable->key
    * 
    * @since   1.10.0
-   * @version 1.10.0
+   * @version 2.1.0
    * @author  Mahmudul Hasan Mithu
    */
-  public static function encode( object $payload )
+  public static function encode( object $payload, string $key=NULL )
   {
     $alg = 'HS512';
-    $key = Unknown_Data::random_name();
+
+    if($key===NULL) $key = Unknown_Data::random_name();
 
     $jwt = Firebase_JWT::encode($payload, $key, $alg);
-
     return (object) [
       'jwt'=>$jwt,
       'key'=>$key
