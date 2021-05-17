@@ -22,7 +22,7 @@ final class Login
    *
    * 
    * @since   1.8.0
-   * @version 2.0.0
+   * @version 2.2.0
    * @author  Mahmudul Hasan Mithu
    */
   public static function main( string $username_or_email, string $password, string $usertype )
@@ -47,9 +47,11 @@ final class Login
           'iat' => \Misc\Moment::datetime()
       ]);
       DB::table('UM_login')->insert([
+        'id_user' => $id_user,
         'token' => $token->jwt,
         'token_key' => $token->key,
-        'access_count' => 0
+        'access_count' => 0,
+        'status' => 'active'
       ]);
       return $token->jwt;
     }
