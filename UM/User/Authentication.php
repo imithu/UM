@@ -19,12 +19,15 @@ class Authentication
    *              0 - fail
    * 
    * @since   1.7.0
-   * @version 2.0.0
+   * @version 2.2.0
    * @author  Mahmudul Hasan Mithu
    */
   public static function main( string $token )
   {
-    $token_key = DB::table('UM_login')->where('token', $token)->value('token_key');
+    $token_key = DB::table('UM_login')
+                  ->where('token', $token)
+                  ->where('status', 'active')
+                  ->value('token_key');
 
     if($token_key!==NULL){
       $payload = JWT::decode( $token, $token_key );
