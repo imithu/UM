@@ -55,14 +55,14 @@ class Meta
    *                     - NULL   - not found
    * 
    * @since   2.3.0
-   * @version 2.3.0
+   * @version 2.4.1
    * @author  Mahmudul Hasan Mithu
    */
   public static function get_text( int $id_user, string $meta_key )
   {
     $meta_key   = htmlspecialchars(trim($meta_key));
     $meta_value = DB::table('UM_usermeta')->where('id_user', $id_user)->where('meta_key', $meta_key)->value('meta_value');
-    return $meta_value;
+    return htmlspecialchars_decode($meta_value);
   }
 
 
