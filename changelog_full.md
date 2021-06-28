@@ -1,4 +1,11 @@
-## [🔖 Version 2.4.1](https://github.com/imithu/UM-Laravel/releases/tag/v2.4.0) - 🇧🇩 UTC+6 2021-June-29 05:27:42
+## [🔖 Version 2.4.2](https://github.com/imithu/UM-Laravel/releases/tag/v2.4.2) - 🇧🇩 UTC+6 2021-June-29 05:57:27
+### 🚩 Fix
+- 🐛 fix - don't decode NULL or false values (UM\User\Meta::get_text())
+
+
+
+
+## [🔖 Version 2.4.1](https://github.com/imithu/UM-Laravel/releases/tag/v2.4.1) - 🇧🇩 UTC+6 2021-June-29 05:27:42
 ### 🚩 Fix
 - 🐛 fix - add htmlspecialchars_decode in get_text method of UM\User\Meta class
 
