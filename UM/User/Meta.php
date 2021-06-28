@@ -55,7 +55,7 @@ class Meta
    *                     - NULL   - not found
    * 
    * @since   2.3.0
-   * @version 2.4.1
+   * @version 2.4.2
    * @author  Mahmudul Hasan Mithu
    */
   public static function get_text( int $id_user, string $meta_key )
