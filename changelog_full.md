@@ -1,3 +1,10 @@
+## [🔖 Version 2.5.0](https://github.com/imithu/UM-Laravel/releases/tag/v2.5.0) - 🇧🇩 UTC+6 2021-June-30 02:04:42
+### 🚩 update
+- 🌱 update - 'all' value has been added in UM\User\Account::get_id method
+
+
+
+
 ## [🔖 Version 2.4.2](https://github.com/imithu/UM-Laravel/releases/tag/v2.4.2) - 🇧🇩 UTC+6 2021-June-29 05:57:27
 ### 🚩 Fix
 - 🐛 fix - don't decode NULL or false values (UM\User\Meta::get_text())
