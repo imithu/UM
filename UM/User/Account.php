@@ -106,4 +106,27 @@ class Account
   }
 
 
+  /**
+   * update email
+   * 
+   * @param int    id_user
+   * @param string email
+   * 
+   * @return boolean  true  - success
+   *                  false - fail
+   * 
+   * @since   2.6.0
+   * @version 2.6.0
+   * @author  Mahmudul Hasan Mithu
+   */
+  public static function update_email(int $id_user, string $email)
+  {
+    if( self::get_id($id_user, 'i')>0 && Syntax::email($email) && self::get_id($email, 'e')===0 ){
+      DB::table('UM_users')->where('id', $id_user)->update(['email'=>$email]);
+      return true;
+    }
+    else return false;
+  }
+
+
 }
