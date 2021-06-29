@@ -3,6 +3,8 @@ namespace UM\User;
 
 use Illuminate\Support\Facades\DB;
 
+use UM\Verify\Syntax;
+
 
 
 
@@ -78,6 +80,29 @@ class Account
     if( $is_email_verified===1 ) return true;
 
     return false;
+  }
+
+
+  /**
+   * update username
+   * 
+   * @param int    id_user
+   * @param string username
+   * 
+   * @return boolean  true  - success
+   *                  false - fail
+   * 
+   * @since   2.6.0
+   * @version 2.6.0
+   * @author  Mahmudul Hasan Mithu
+   */
+  public static function update_username(int $id_user, string $username)
+  {
+    if( self::get_id($id_user, 'i')>0 && Syntax::username($username) && self::get_id($username, 'u')===0 ){
+      DB::table('UM_users')->where('id', $id_user)->update(['username'=>$username]);
+      return true;
+    }
+    else return false;
   }
 
 
