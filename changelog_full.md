@@ -1,3 +1,11 @@
+## [🔖 Version 2.6.0](https://github.com/imithu/UM-Laravel/releases/tag/v2.6.0) - 🇧🇩 UTC+6 2021-June-30 05:43:06
+### 🚩 add
+- 🌱 add - update_username has been added in UM\User\Account class
+- 🌱 add - update_email has been added    in UM\User\Account class
+
+
+
+
 ## [🔖 Version 2.5.0](https://github.com/imithu/UM-Laravel/releases/tag/v2.5.0) - 🇧🇩 UTC+6 2021-June-30 02:04:42
 ### 🚩 update
 - 🌱 update - 'all' value has been added in UM\User\Account::get_id method
